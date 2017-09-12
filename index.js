@@ -34,6 +34,7 @@ class Player extends Component {
             status: STOPPED,
             song: ''
         };
+        this.playerName = "defaultPlayer";
     }
 
     componentDidMount() {
@@ -50,24 +51,25 @@ class Player extends Component {
 
         ReactNativeAudioStreaming.getStatus((error, status) => {
             (error) ? console.log(error) : this.setState(status)
-        });
+        }, this.playerName);
     }
 
     _onPress() {
         switch (this.state.status) {
             case PLAYING:
             case STREAMING:
-                ReactNativeAudioStreaming.pause();
+                ReactNativeAudioStreaming.pause(this.playerName);
                 break;
             case PAUSED:
-                ReactNativeAudioStreaming.resume();
+                ReactNativeAudioStreaming.resume(this.playerName);
                 break;
             case STOPPED:
             case ERROR:
-                ReactNativeAudioStreaming.play(this.props.url, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
+                ReactNativeAudioStreaming.initNewPlayer(this.playerName);
+                ReactNativeAudioStreaming.play(this.playerName, this.props.url, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
                 break;
             case BUFFERING:
-                ReactNativeAudioStreaming.stop();
+                ReactNativeAudioStreaming.stop(this.playerName);
                 break;
         }
     }
