@@ -6,10 +6,12 @@ import {
     Text,
     View,
     ListView,
+    NativeEventEmitter,
     Platform,
     TouchableOpacity
 } from 'react-native';
-import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
+
+import  { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
 
 export default class App extends Component {
     constructor() {
@@ -38,17 +40,46 @@ export default class App extends Component {
             dataSource: this.ds.cloneWithRows(this.urls),
             selectedSource: this.urls[0].url
         };
+
+        this.playersName = [];
+    }
+
+    componentDidMount() {
+      this.subscription = new NativeEventEmitter(ReactNativeAudioStreaming).addListener(
+            'AudioBridgeEvent', (evt) => {
+              console.log('===============')
+              console.log('Player changes ', evt.playerName)
+              console.log('Left and Right channels ', evt.leftChannel, evt.rightChannel)
+            }
+        );
+    }
+
+    componentWillUnmount() {
+      this.subscription.remove();
+    }
+
+    handleSeekForward() {
+      ReactNativeAudioStreaming.getStatus(status=>{
+        if (!err) {
+        console.log('currentTime',status.progress)
+          ReactNativeAudioStreaming.seekToTime("one",status.progress+10);
+        }
+      },"one")
     }
 
     render() {
         return (
             <View style={styles.container}>
+            <Text onPress={this.handleSeekForward}>Seek forward</Text>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
                         <TouchableOpacity onPress={() => {
                             this.setState({selectedSource: rowData.url, dataSource: this.ds.cloneWithRows(this.urls)});
-                            ReactNativeAudioStreaming.play(rowData.url, {});
+                            const name = "player" + this.playersName.length;
+                            this.playersName.push(name);
+                            ReactNativeAudioStreaming.initNewPlayer(name);
+                            ReactNativeAudioStreaming.play(name,rowData.url, {showIniOSMediaCenter: false});
                         }}>
                             <View style={StyleSheet.flatten([
                                 styles.row,
@@ -63,8 +94,12 @@ export default class App extends Component {
                         </TouchableOpacity>
                     }
                 />
-
-                <Player url={this.state.selectedSource} />
+                <Text onPress={()=>{
+                  if (this.playersName.length>=0) {
+                    const name = this.playersName.pop();
+                    ReactNativeAudioStreaming.pause(name)
+                  }
+                }}>Pause</Text>
             </View>
         );
     }

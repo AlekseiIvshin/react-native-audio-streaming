@@ -3,10 +3,12 @@
 
 #import "RCTBridgeModule.h"
 #import "STKAudioPlayer.h"
+#import <React/RCTEventEmitter.h>
 
-@interface ReactNativeAudioStreaming : NSObject <RCTBridgeModule, STKAudioPlayerDelegate>
+@interface ReactNativeAudioStreaming : RCTEventEmitter <RCTBridgeModule, STKAudioPlayerDelegate>
 
-@property (nonatomic, strong) STKAudioPlayer *audioPlayer;
+@property (nonatomic, strong) NSMutableDictionary *audioPlayers;
+@property (nonatomic, strong) NSMutableArray *interruptedPlayers;
 @property (nonatomic, readwrite) BOOL isPlayingWithOthers;
 @property (nonatomic, readwrite) BOOL showNowPlayingInfo;
 @property (nonatomic, readwrite) NSString *lastUrlString;
