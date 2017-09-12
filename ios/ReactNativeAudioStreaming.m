@@ -6,7 +6,6 @@
 #define LPN_AUDIO_BUFFER_SEC 20 // Can't use this with shoutcast buffer meta data
 
 @import AVFoundation;
-@import MediaPlayer;
 
 @implementation ReactNativeAudioStreaming
 {
