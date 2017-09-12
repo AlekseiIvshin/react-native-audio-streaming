@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2F375E52CF2D8F6CA2BE6FDD8DC0BE3771B80501",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3E9414865BAE5433092B9D136FFC1F054EA505C2" : 9223372036854775807,
+    "2F375E52CF2D8F6CA2BE6FDD8DC0BE3771B80501" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "924AD591-B547-4D10-8938-F97D8651B133",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3E9414865BAE5433092B9D136FFC1F054EA505C2" : "StreamingKit\/",
+    "2F375E52CF2D8F6CA2BE6FDD8DC0BE3771B80501" : "react-native-audio-streaming\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ReactNativeAudioStreaming",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/ReactNativeAudioStreaming.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AlekseiIvshin\/react-native-audio-streaming.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2F375E52CF2D8F6CA2BE6FDD8DC0BE3771B80501"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/tumtumtum\/StreamingKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3E9414865BAE5433092B9D136FFC1F054EA505C2"
+    }
+  ]
+}

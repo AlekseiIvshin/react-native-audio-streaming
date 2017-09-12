@@ -133,20 +133,6 @@ RCT_EXPORT_METHOD(play:(NSString *)playerName url:(NSString *) streamUrl options
    }
    
    self.lastUrlString = streamUrl;
-   self.showNowPlayingInfo = false;
-   
-   if ([options objectForKey:@"showIniOSMediaCenter"]) {
-      self.showNowPlayingInfo = [[options objectForKey:@"showIniOSMediaCenter"] boolValue];
-   }
-   
-   if (self.showNowPlayingInfo) {
-      //unregister any existing registrations
-      [self unregisterAudioInterruptionNotifications];
-      //register
-      [self registerAudioInterruptionNotifications];
-   }
-   
-   [self setNowPlayingInfo:true];
 }
 
 RCT_EXPORT_METHOD(seek:(NSString *)playerName ToTime:(double) seconds)
@@ -170,7 +156,6 @@ RCT_EXPORT_METHOD(goForward:(NSString *)playerName ByTime:(double) seconds)
    
    if (audioPlayer.duration < newtime) {
       [audioPlayer stop];
-      [self setNowPlayingInfo:false];
    } else {
       [audioPlayer seekToTime:newtime];
    }
@@ -199,7 +184,6 @@ RCT_EXPORT_METHOD(pause:(NSString *)playerName)
       return;
    } else {
       [audioPlayer pause];
-      [self setNowPlayingInfo:false];
       [self deactivate];
    }
 }
@@ -211,9 +195,7 @@ RCT_EXPORT_METHOD(resume:(NSString *)playerName)
       return;
    } else {
       [self activate];
-      [audioPlayer resume];
-      [self setNowPlayingInfo:true];
-   }
+      [audioPlayer resume];   }
 }
 
 RCT_EXPORT_METHOD(stop:(NSString *)playerName)
@@ -223,7 +205,6 @@ RCT_EXPORT_METHOD(stop:(NSString *)playerName)
       return;
    } else {
       [audioPlayer stop];
-      [self setNowPlayingInfo:false];
       [self deactivate];
    }
 }
@@ -280,7 +261,6 @@ RCT_EXPORT_METHOD(getStatus: (RCTResponseSenderBlock) callback OfPlayer:(NSStrin
                                                                                    @"key": @"StreamTitle",
                                                                                    @"value": self.currentSong
                                                                                    }];
-   [self setNowPlayingInfo:true];
 }
 
 - (void)audioPlayer:(STKAudioPlayer *)player stateChanged:(STKAudioPlayerState)state previousState:(STKAudioPlayerState)previousState
@@ -483,23 +463,4 @@ RCT_EXPORT_METHOD(getStatus: (RCTResponseSenderBlock) callback OfPlayer:(NSStrin
          break;
    }
 }
-
-#pragma mark - Remote Control Events
-
-- (void)setNowPlayingInfo:(bool)isPlaying
-{
-   if (self.showNowPlayingInfo) {
-      // TODO Get artwork from stream
-      // MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageNamed:@"webradio1"]];
-      
-      NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-      NSDictionary *nowPlayingInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      self.currentSong ? self.currentSong : @"", MPMediaItemPropertyAlbumTitle,
-                                      @"", MPMediaItemPropertyAlbumArtist,
-                                      appName ? appName : @"AppName", MPMediaItemPropertyTitle,
-                                      [NSNumber numberWithFloat:isPlaying ? 1.0f : 0.0], MPNowPlayingInfoPropertyPlaybackRate, nil];
-      [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nowPlayingInfo;
-   }
-}
-
 @end
